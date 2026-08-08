@@ -1,0 +1,10 @@
+streamlit
+numpy
+pandas
+joblib
+tensorflow
+torch
+pytorch-tabnet
+google-genai
+python-dotenv
+scikit-learn
