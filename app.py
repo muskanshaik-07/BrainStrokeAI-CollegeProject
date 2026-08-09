@@ -18,7 +18,17 @@ load_dotenv()
 client = genai.Client(
     api_key=os.getenv("GEMINI_API_KEY")
 )
+scaler = joblib.load(BASE_DIR / "models" / "scaler.pkl")
+encoders = joblib.load(BASE_DIR / "models" / "encoders.pkl")
 
+dnn_model = load_model(
+    BASE_DIR / "models" / "dnn_model.keras"
+)
+
+tabnet_model = TabNetClassifier()
+tabnet_model.load_model(
+    str(BASE_DIR / "models" / "tabnet_model.zip")
+)
 # -------------------------
 # Page Configuration
 # -------------------------
@@ -86,7 +96,6 @@ page = st.sidebar.radio(
         "📊 Stroke Prediction",
         "🤖 Clinical Decision Support",
         "💬 AI Health Assistant",
-        "📂 Dataset Overview",
         "📈 Model Comparison",
         "ℹ️ About"
     ]
@@ -775,63 +784,71 @@ elif page == "📈 Model Comparison":
 
 elif page == "ℹ️ About":
 
-    st.title("ℹ️ About Project")
+    st.title("ℹ️ About Brain Stroke AI Agent")
 
-    st.subheader(
-        "AI Agent for Brain Stroke Prediction"
-    )
+    st.subheader("AI Agent for Brain Stroke Prediction")
 
     st.write("""
-### Project Overview
+    ### 🧠 Project Overview
 
-This project is an AI-based Brain Stroke Prediction system
-using Electronic Health Records (EHR).
+    This project is an AI-based Brain Stroke Prediction system
+    using Electronic Health Records (EHR) and Clinical Decision Support.
 
-The system uses multiple Machine Learning and Deep Learning
-models to predict stroke risk.
+    The system uses multiple Machine Learning and Deep Learning
+    models to predict stroke risk.
 
-### Models Used
+    ### 🤖 Models Used
 
-✅ Deep Neural Network (DNN)
+    ✅ Deep Neural Network (DNN)
 
-✅ TabNet
+    ✅ TabNet
 
-✅ FT-Transformer
+    ✅ FT-Transformer
 
-### Clinical Decision Support
+    ### 📊 Dataset
 
-The application also integrates Gemini AI to provide
-educational clinical decision-support information based
-on patient details.
+    Stroke Prediction Dataset from Kaggle.
 
-### Technologies
+    ### 🩺 Clinical Decision Support
 
-- Python
-- Streamlit
-- TensorFlow
-- PyTorch
-- TabNet
-- Gemini AI
-- Pandas
-- NumPy
-- Scikit-learn
+    The application integrates Gemini AI to provide
+    educational clinical decision-support information
+    based on patient details.
 
-### Developer
+    ### 🛠️ Technologies Used
 
-**Muskan Shaik**
-""")
-# -------------------------
-# FOOTER
-# -------------------------
+    - Python
+    - Streamlit
+    - TensorFlow
+    - PyTorch
+    - TabNet
+    - Gemini AI
+    - Pandas
+    - NumPy
+    - Scikit-learn
 
-st.markdown(
-    """
-    <div class="footer">
-        🧠 <b>Brain Stroke AI Agent</b><br>
-        AI-powered stroke risk prediction & clinical decision support<br>
-        <br>
-        Developed by <b>Muskan Shaik</b> • B.Tech CSD
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+    ### 👩‍💻 Developer
+
+    **Muskan Shaik**
+
+    B.Tech CSD
+
+    ### ⚠️ Disclaimer
+
+    This application is intended for educational purposes
+    and is not a replacement for professional medical advice.
+    """)
+
+    # -------------------------
+    # FOOTER
+    # -------------------------
+
+    st.markdown(
+        """
+        ---
+        🧠 **Brain Stroke AI Agent**  
+        AI-powered stroke risk prediction & clinical decision support
+
+        Developed by **Muskan Shaik • B.Tech CSD**
+        """
+    )
