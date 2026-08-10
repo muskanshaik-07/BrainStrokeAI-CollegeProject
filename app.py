@@ -562,7 +562,7 @@ Do not diagnose the patient or prescribe medication.
                     )
 
                 response = client.models.generate_content(
-                    model="gemini-3.5-flash",
+                    model="gemini-2.5-flash",
                     contents=prompt
                 )
 
@@ -674,7 +674,7 @@ Important safety rules:
                         )
 
                     response = client.models.generate_content(
-                        model="gemini-3.5-flash",
+                        model="gemini-2.5-flash",
                         contents=chat_prompt
                     )
 
