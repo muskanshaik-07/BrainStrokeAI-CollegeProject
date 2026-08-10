@@ -1,8 +1,7 @@
-streamlit
 numpy<2.0.0
 pandas
 joblib
-tensorflow>=2.15.0
+tensorflow-cpu
 torch
 pytorch-tabnet
 google-genai
