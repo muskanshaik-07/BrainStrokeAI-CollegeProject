@@ -15,9 +15,14 @@ from pytorch_tabnet.tab_model import TabNetClassifier
 BASE_DIR = Path(__file__).resolve().parent
 load_dotenv()
 
-client = genai.Client(
-    api_key=os.getenv("GEMINI_API_KEY")
-)
+try:
+    GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+except Exception:
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+client = None
+if GEMINI_API_KEY:
+    client = genai.Client(api_key=GEMINI_API_KEY)
 scaler = joblib.load(BASE_DIR / "models" / "scaler.pkl")
 encoders = joblib.load(BASE_DIR / "models" / "encoders.pkl")
 
@@ -550,6 +555,12 @@ Do not diagnose the patient or prescribe medication.
 
             try:
 
+                if client is None:
+                    raise ValueError(
+                        "GEMINI_API_KEY is not configured. Add it in "
+                        "Streamlit Cloud → Settings → Secrets (or a local .env)."
+                    )
+
                 response = client.models.generate_content(
                     model="gemini-3.5-flash",
                     contents=prompt
@@ -655,6 +666,12 @@ Important safety rules:
             with st.spinner("🧠 Thinking..."):
 
                 try:
+
+                    if client is None:
+                        raise ValueError(
+                            "GEMINI_API_KEY is not configured. Add it in "
+                            "Streamlit Cloud → Settings → Secrets (or a local .env)."
+                        )
 
                     response = client.models.generate_content(
                         model="gemini-3.5-flash",
