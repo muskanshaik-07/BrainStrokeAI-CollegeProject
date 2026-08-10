@@ -15,6 +15,16 @@ from pytorch_tabnet.tab_model import TabNetClassifier
 BASE_DIR = Path(__file__).resolve().parent
 load_dotenv()
 
+# -------------------------
+# Page Configuration
+# -------------------------
+
+st.set_page_config(
+    page_title="Brain Stroke AI Agent",
+    page_icon="🧠",
+    layout="wide"
+)
+
 try:
     GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
 except Exception:
@@ -34,15 +44,7 @@ tabnet_model = TabNetClassifier()
 tabnet_model.load_model(
     str(BASE_DIR / "models" / "tabnet_model.zip")
 )
-# -------------------------
-# Page Configuration
-# -------------------------
 
-st.set_page_config(
-    page_title="Brain Stroke AI Agent",
-    page_icon="🧠",
-    layout="wide"
-)
 
 # -------------------------
 # FT Transformer
